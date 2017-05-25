@@ -1,0 +1,123 @@
+﻿@using WebPDV.Models;
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = null;
+    IList<Pessoa> lp = (IList<Pessoa>)Model;
+}
+
+<!DOCTYPE html>
+
+<script>
+    $(function () {
+        $("#btnCadastro").button().on("click", function () {
+            utilJSPUI.abreDialogo('dialog', 'Cadastro', '/Pessoa/Cadastro', {});
+        });
+    });
+</script>
+<style>
+    table.dataTable {
+        font-family: Trebuchet MS,Helvetica,Arial,sans-serif;
+    }
+     .dataTable{
+         color:#000;
+     }
+
+    .dataTables_wrapper {
+        font-family: Trebuchet MS,Helvetica,Arial,sans-serif;
+    }
+
+        .dataTables_wrapper .dataTables_length, .dataTables_filter, .dataTables_info, .dataTables_paginate {
+            font-size: 0.8em;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            /*float: left;
+        text-align: left;*/
+        }
+</style>
+
+
+<table id="tbLista" class="display" width="100%">
+    <thead>
+        <tr>
+            <th style="width:10%">Id</th>
+            <th style="width:30%">Nome</th>
+            <th style="width:30%">SobreNome</th>
+            <th style="width:10%">Idade</th>
+            <th style="width:20%">ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Pessoa p in lp)
+        {
+            <tr>
+                <td>@p.id</td>
+                <td>@p.nome</td>
+                <td>@p.sobrenome</td>
+                <td>@p.idade</td>
+                <td><button title='Excluir' class='ui-button ui-widget ui-corner-all btnExclui'><span class='ui-icon ui-icon-trash'></span></button>&nbsp;<button title='Alterar' class='ui-button ui-widget ui-corner-all btnAltera'><span class='ui-icon ui-icon-pencil'></span></button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+<script>
+
+    var tabela = $('#tbLista').DataTable({
+        //"processing": true,
+        //"serverSide": true,
+        /*"dom": '<"clear"><"top row"<"col-lg-4"l><"col-lg-4"f>><"top row"<"col-lg-4"i><"col-lg-4"p>>r<"col-lg-12"t><"clear">',*/
+        "scrollCollapse": false,
+        bFilter: false,
+        "paging": true,
+        "pagingType": "simple_numbers",
+        aLengthMenu: [
+            [5, 10, 50, 100, -1],
+            [5, 10, 50, 100, "Todos"]
+        ],
+        iDisplayLength: 5,
+        aoColumnDefs: [
+            { "aTargets": [0], "bSortable": false, "bVisible": true, "bSearchable": false },
+            { "aTargets": [1], "bSortable": true },
+            { "aTargets": [2], "bSortable": true },
+            { "aTargets": [3], "bSortable": false },
+            { "aTargets": [4], "bSortable": false}
+        ]/*,
+        "ajax": {
+            "url": "/Pessoa/GetJson",
+            "data": function (d) {
+                //d.myKey = "myValue";
+            }
+        }*/
+    });
+
+    $('#tbLista tbody').on('click', '.btnExclui', function () {
+        //var data = tabela.row(this).data();
+        var data = tabela.row($(this).parents('tr')).data();
+        utilJSPUI.confirma("Deseja excluir o registro de " + data[1] + "?", "exclui(" + data[0] + ")");
+    });
+
+    $('#tbLista tbody').on('click', '.btnAltera', function () {
+        //var data = tabela.row(this).data();
+        var data = tabela.row($(this).parents('tr')).data();
+        utilJSPUI.abreDialogo('dialog', 'Alteração', '/Pessoa/Alteracao', {id: data[0]});
+    });
+
+    function exclui(_id) {
+        formData = { id: _id };
+        utilJSPUI.executaAcao('/Pessoa/Exclui', formData, "POST", "atualizaTabela()");
+    }
+
+    function atualizaTabela() {
+        //tabela.ajax.reload(null, false); // user paging is not reset on reload
+        utilJSPUI.carregaDivPagina('divCentral', '/Pessoa/Lista', {});
+        return false;
+    }
+
+</script>
+

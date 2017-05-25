@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>jQuery UI Menubar Widget</title>
+        <link rel="Stylesheet" href="jqueryui/themes/base/jquery.ui.all.css" />
+    </head>
+    <body>
+        <ul id="menu">
+            <li>
+                <a href="#">File</a>
+                <ul>
+                    <li><a href="#">New</a></li>
+                    <li><a href="#">Open</a></li>
+                    <li><a href="#">Close</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Edit</a>
+                <ul>
+                    <li><a href="#">Undo</a></li>
+                    <li><a href="#">Redo</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">View</a>
+                <ul>
+                    <li><a href="#">Home Screen</a></li>
+                    <li>
+                        <a href="#">Zoom</a>
+                        <ul>
+                            <li><a href="#">150%</a></li>
+                            <li><a href="#">120%</a></li>
+                            <li><a href="#">100%</a></li>
+                            <li><a href="#">80%</a></li>
+                            <li><a href="#">50%</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <script src="jqueryui/jquery-1.6.2.js"></script>
+        <script src="jqueryui/ui/jquery.ui.core.js"></script>
+        <script src="jqueryui/ui/jquery.ui.widget.js"></script>
+        <script src="jqueryui/ui/jquery.ui.position.js"></script>
+        <script src="jqueryui/ui/jquery.ui.menu.js"></script>
+        <script src="jqueryui/ui/jquery.ui.menubar.js"></script>
+        <script>
+            (function () {
+                $("#menu").menubar({
+                    menuIcon: true,
+                    buttons: true
+                })
+            } (jQuery));
+        </script>
+    </body>
+</html>

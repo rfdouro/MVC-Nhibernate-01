@@ -1,0 +1,275 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>sisadin</title>
+
+    <link href="~/Scripts/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Scripts/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+
+
+    <script src="~/Scripts/jquery-3.1.0.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables-1.10.11/css/dataTables.jqueryui.css" />
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/DataTables-1.10.11/js/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables-1.10.11/js/dataTables.jqueryui.js"></script>
+    <script src="~/Scripts/bootstrap-popup.min.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+
+
+    <script src="~/Scripts/UtilPUI.js?random=@(new Random().Next())">
+    </script>
+
+    <script>
+
+        function openInfo() {
+            $("#dialogInfo").dialog("open");
+        }
+
+        function positionnerSousMenu(position, elements) {
+            var options = {
+                of: elements.target.element
+            };
+
+            if (elements.element.element.parent().parent().attr("id") === "menu") {
+                options.my = "center top";
+                options.at = "center bottom";
+            }
+            else {
+                options.my = "left top";
+                options.at = "right top";
+            }
+
+            elements.element.element.position(options);
+        };
+
+        function mostraSplash() {
+            $('#telaSplash').attr('style', 'display: block');
+        }
+
+        function escondeSplash() {
+            $('#telaSplash').attr('style', 'display: none');
+        }
+
+        $(function () {
+            var menu = "#menu";
+            var position = { my: "left top", at: "left bottom" };
+
+            $(menu).menu({
+                position: position,
+                blur: function () {
+                    $(this).menu("option", "position", position);
+                },
+                focus: function (e, ui) {
+                    if ($(menu).get(0) !== $(ui).get(0).item.parent().get(0)) {
+                        $(this).menu("option", "position", { my: "left top", at: "right top" });
+                    }
+                }
+            }).show();
+
+            $(menu + " > li > a > span").switchClass("ui-icon-carat-1-e", "ui-icon-carat-1-s");
+
+            $(menu).on('click', 'div', function () {
+                var t = $(this).attr('href');
+                if (!(typeof t === 'undefined' || !t))
+                    //window.location = t;
+                    utilJSPUI.carregaDivPagina('divMain', t, {});
+            })
+
+            $.ajaxSetup({ cache: false });
+            $(document).ajaxStart(function () {
+                mostraSplash();
+            });
+            $(document).ajaxComplete(function () {
+                escondeSplash();
+            });
+
+            $("#tabsInfo").tabs();
+
+            $("#dialogInfo").dialog({
+                autoOpen: false,
+                resizable: false,
+                draggable: false,
+                height: "auto",
+                width: "75%",
+                modal: true,
+                show: {
+                    effect: "drop",
+                    duration: 500
+                },
+                hide: {
+                    effect: "drop",
+                    duration: 500
+                },
+                buttons: {
+                    "Fechar": function () {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    return false;
+                }
+            });
+
+            //$(document).tooltip();
+        });
+    </script>
+
+
+    <style>
+        html, body {
+            font-family: Trebuchet MS,Helvetica,Arial,sans-serif;
+            background-color: #0b607a;
+        }
+
+        body {
+            color: #FFF;
+        }
+
+        #telaSplash {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(249, 249, 249, 0.0);
+            z-index: 9999;
+            visibility: visible;
+        }
+
+        #divInternoSplash {
+            position: relative;
+            width: 150px;
+            height: 200px;
+            margin-top: -75px;
+            margin-left: -100px;
+            top: 50%;
+            left: 50%;
+            background-color: rgba(249, 249, 249, 1);
+            border: solid 2px #000;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        input {
+            text-transform: uppercase;
+        }
+
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            text-transform: none;
+        }
+
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            text-transform: none;
+        }
+
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            text-transform: none;
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+            text-transform: none;
+        }
+
+        #menu {
+            overflow: hidden;
+            width: auto;
+            min-height: 40px;
+        }
+
+            #menu > li {
+                float: left;
+                width: 100px !important;
+                padding-top: 7px;
+            }
+
+                #menu > li > div {
+                    height: 34px;
+                    padding-top: 18px;
+                }
+
+            #menu .ui-menu {
+                width: 200px;
+            }
+
+        .ui-widget-overlay {
+            background-color: #0b607a;
+            opacity: 0.8;
+        }
+
+    </style>
+
+
+
+</head>
+<body onload="escondeSplash()" onsubmit="mostraSplash()">
+
+    <div id="dialog" title="Basic dialog">
+
+    </div>
+
+    <div id="telaSplash">
+        <div id="divInternoSplash" class="ui-corner-all">
+            <img src="~/Images/imagens/loaders/ajax-loader4.gif" alt="Carregando Página" style="position:absolute; top:50%; left:50%; margin-left: -32px; margin-top:-20px" />
+            <!-- <i class="fa fa-refresh fa-spin fa-3x fa-fw" style="position:absolute; top:50%; left:50%; margin-left: -100px"></i>-->
+            <span style="color:red; position:absolute; top:50%; left:50%; margin-top: -70px; margin-left: -35px"><br>Processando</span>
+        </div>
+    </div>
+
+    <ul id="menu" class="ui-corner-all ui-state-default">
+        <li style="height:50px; width:150px !important; margin-left:5px; background-color:#0b607a" class="ui-corner-all">
+            <div href="/Home/Inicio" style="text-align:center; padding-top: 0">
+                <img style="height: 40px; cursor:pointer" title="Início" src="~/Images/imagens/logoSisadin.png" />&nbsp;
+            </div>
+        </li>
+        <li><div href="/Pessoa">Pessoas</div></li>
+        <li><div href="http://google.com">Google</div></li>
+        <li>
+            <div>Ativos</div>
+            <ul>
+                <li class="ui-state-disabled"><div>Materiais de Informática</div></li>
+                <li><div>PCs</div></li>
+                <li><div>Impressoras</div></li>
+            </ul>
+        </li>
+        <li style="float:right"><div onclick="openInfo();"><i class="fa fa-info-circle"></i>&nbsp;Info</div></li>
+    </ul>
+
+    <div id="dialogInfo" title="Informações">
+        <div id="tabsInfo">
+            <ul>
+                <li><a href="#tabs-1">Nunc tincidunt</a></li>
+                <li><a href="#tabs-2">Proin dolor</a></li>
+                <li><a href="#tabs-3">Aenean lacinia</a></li>
+            </ul>
+            <div id="tabs-1">
+                <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+            </div>
+            <div id="tabs-2">
+                <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+            </div>
+            <div id="tabs-3">
+                <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @RenderBody()
+
+</body>
+</html>

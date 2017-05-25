@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>jQuery UI Tooltip Widget</title>
+        <link rel="Stylesheet" href="jqueryui/themes/base/jquery.ui.all.css" />
+        <style>
+            label, input, a { margin-bottom:5px; float:left; }
+            label { width:90px; clear:both; }
+            span { display:none; }
+        </style>
+    </head>
+    <body>
+        <label>Name:</label><input /><a href="#" class="tip" title="Your actual name, you don't need help with that right..?">?</a>
+        <label>Age:</label><input /><a href="#" class="tip" title="The length of your existence">?</a>
+        <label>BMI:</label><input /><a href="#" class="alt-tip" title="This will not be used">?</a>
+        <script src="jqueryui/jquery-1.6.2.js"></script>
+        <script src="jqueryui/ui/jquery.ui.core.js"></script>
+        <script src="jqueryui/ui/jquery.ui.widget.js"></script>
+        <script src="jqueryui/ui/jquery.ui.position.js"></script>
+        <script src="jqueryui/ui/jquery.ui.tooltip.js"></script>
+        <script>
+            (function () {
+                $(".tip").tooltip();
+
+                $(".alt-tip").tooltip({
+                    content: function () {
+                        return $("#bmi").text();
+                    },
+                    position: {
+                        my: "center bottom",
+                        at: "center top"
+                    }
+                });
+            } (jQuery));
+        </script>
+        <span id="bmi">To calculate your BMI simply divide your height in Kilograms by your height in metres squared</span>
+    </body>
+</html>

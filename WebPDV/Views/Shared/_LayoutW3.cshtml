@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>sisadin</title>
+
+
+    <script src="~/Scripts/jquery-3.1.0.js"></script>
+
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/w3.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery.form.js"></script>
+
+    <script src="~/Scripts/bootstrap-popup.min.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+
+
+    <script src="~/Scripts/UtilW3.js?random=@(new Random().Next())">
+    </script>
+
+    <script>
+
+
+        function mostraSplash() {
+            $('#telaSplash').attr('style', 'display: block');
+        }
+
+        function escondeSplash() {
+            $('#telaSplash').attr('style', 'display: none');
+        }
+
+        $(function () {
+
+
+            $.ajaxSetup({ cache: false });
+            $(document).ajaxStart(function () {
+                mostraSplash();
+            });
+            $(document).ajaxComplete(function () {
+                escondeSplash();
+            });
+
+
+        });
+    </script>
+
+
+    <style>
+        html, body {
+            font-family: Trebuchet MS,Helvetica,Arial,sans-serif;
+            background-color: #000;
+        }
+
+        body {
+            color: #FFF;
+        }
+
+        #telaSplash {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(249, 249, 249, 0.0);
+            z-index: 9999;
+            visibility: visible;
+        }
+
+        #divInternoSplash {
+            position: relative;
+            width: 150px;
+            height: 200px;
+            margin-top: -75px;
+            margin-left: -100px;
+            top: 50%;
+            left: 50%;
+            background-color: rgba(249, 249, 249, 1);
+            border: solid 2px #000;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        input {
+            text-transform: uppercase;
+        }
+
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            text-transform: none;
+        }
+
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            text-transform: none;
+        }
+
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            text-transform: none;
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+            text-transform: none;
+        }
+    </style>
+
+
+
+</head>
+<body onload="escondeSplash()" onsubmit="mostraSplash()">
+
+    <div class="w3-container">
+
+        <div id="dialog" title="Basic dialog">
+
+        </div>
+
+        <div id="telaSplash">
+            <div id="divInternoSplash">
+                <img src="~/Images/imagens/loaders/ajax-loader4.gif" alt="Carregando Página" style="position:absolute; top:50%; left:50%; margin-left: -32px; margin-top:-20px" />
+                <!-- <i class="fa fa-refresh fa-spin fa-3x fa-fw" style="position:absolute; top:50%; left:50%; margin-left: -100px"></i>-->
+                <span style="color:red; position:absolute; top:50%; left:50%; margin-top: -70px; margin-left: -35px"><br>Processando</span>
+            </div>
+        </div>
+
+        <ul class="w3-navbar w3-light-grey">
+            <li class="w3-hide-medium w3-hide-large w3-black w3-opennav w3-right">
+                <a href="javascript:void(0);" onclick="myFunction()">☰</a>
+            </li>
+            <li ><a class="w3-green" href="#">Home</a></li>
+            <li class="w3-hide-small"><a href="/Pessoa/">Pessoa</a></li>
+            <li class="w3-hide-small"><a href="#">Link 2</a></li>
+            <li class="w3-hide-small"><a href="#">Link 3</a></li>
+            <li class="w3-dropdown-hover w3-hide-small">
+                <a href="#">Dropdown <i class="fa fa-caret-down"></i></a>
+                <div class="w3-dropdown-content w3-white w3-card-4">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
+            </li>
+        </ul>
+
+        <div id="demo" class="w3-hide w3-hide-large w3-hide-medium">
+            <ul class="w3-navbar w3-left-align w3-green">
+                <li><a href="#">Link 1</a></li>
+                <li><a href="#">Link 2</a></li>
+                <li><a href="#">Link 3</a></li>
+                <li class="w3-dropdown-hover">
+                    <a href="#">Dropdown <i class="fa fa-caret-down"></i></a>
+                    <div class="w3-dropdown-content w3-white w3-card-4">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <script>
+            function myFunction() {
+                var x = document.getElementById("demo");
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                } else {
+                    x.className = x.className.replace(" w3-show", "");
+                }
+            }
+        </script>
+
+
+
+
+        @RenderBody()
+    </div>
+</body>
+</html>

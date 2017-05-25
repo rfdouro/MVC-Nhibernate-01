@@ -1,0 +1,158 @@
+﻿@{
+    String titulo = "";
+}
+<!--
+ver
+https://getbootstrap.com/examples/navbar/
+http://igorescobar.github.io/jQuery-Mask-Plugin/
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>sisadin</title>
+    <link rel="icon" href="~/imagens/icoSisadin.png">
+
+    
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    
+    <!--<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-theme.min.css" />-->
+
+    <!-- link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet" -->
+    <!-- link rel="stylesheet" type="text/css" href="~/Content/css/theme.css" /-->
+    <link rel="stylesheet" type="text/css" href="~/Content/css/slate.css" />
+    
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap-submenu.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/bootstrap-datepicker-1.6.1/css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
+
+    <!--link rel="stylesheet" type="text/css" href="~/Content/css/customEstilo.css" /-->
+
+
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-popup.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-submenu.min.js"></script>
+    <!--datepicker alterado para mostrar na versão jquery 3-->
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker-1.6.1/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker-1.6.1/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-notify.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/Dialogs.js"></script>
+
+    <link href="~/Content/css/estiloMenuHover.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="~/Scripts/Util.js"></script>
+
+
+    <!--Scripts adicionais-->
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables-1.10.11/css/dataTables.bootstrap.css" />
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/DataTables-1.10.11/js/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables-1.10.11/js/dataTables.bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap-popup.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+
+    <style>
+        #telaSplash {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(249, 249, 249, 0.0);
+            z-index: 9999;
+            visibility: visible;
+        }
+
+        #divInternoSplash {
+            position: relative;
+            width: 150px;
+            height: 200px;
+            margin-top: -75px;
+            margin-left: -100px;
+            top: 50%;
+            left: 50%;
+            background-color: rgba(249, 249, 249, 1);
+            border: solid 2px #000;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        
+    </style>
+
+    <script>
+        function mostraSplash() {
+            $('#telaSplash').attr('style', 'display: block');
+        }
+
+        function escondeSplash() {
+            $('#telaSplash').attr('style', 'display: none');
+        }
+    </script>
+</head>
+<body onload="escondeSplash()" onsubmit="mostraSplash()">
+    <div id="telaSplash">
+        <div id="divInternoSplash">
+            <img src="~/Images/imagens/loaders/ajax-loader4.gif" alt="Carregando Página" style="position:absolute; top:50%; left:50%; margin-left: -32px; margin-top:-20px" />
+            <!-- <i class="fa fa-refresh fa-spin fa-3x fa-fw" style="position:absolute; top:50%; left:50%; margin-left: -100px"></i>-->
+            <span style="color:red; position:absolute; top:50%; left:50%; margin-top: -70px; margin-left: -35px"><br>Processando</span>
+        </div>
+    </div>
+    <div class="container-fluid">
+        @RenderPage("menuSuperior.cshtml")
+
+        <div class="alert alert-success" style="width: 100%; font-size: large; text-align: center; margin-top: -20px; padding: 5px;">
+            @RenderSection("tituloInternoPagina", false)
+        </div>
+
+        @RenderBody()
+
+        <div id="dialog" class="modal fade" role="dialog" style="height: 100%; overflow-y: auto">
+            <div class="modal-dialog" style="width: 90%">
+                <div class="modal-content">
+                    <div class="modal-header ui-widget-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="fa fa-close"></span></button>
+                        <h4 class="modal-title" id="dialogTitle">...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bootstrap-iso">
+                            <div class="container-fluid" id="dialogContent">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-warning" id="btnCloseDialog" onclick="utilJS.fechaModal('dialog')">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $.ajaxSetup({cache: false});
+            $(document).ajaxStart(function () {
+                mostraSplash();//$("#telaSplash").css("display", "block");
+            });
+            $(document).ajaxComplete(function () {
+                escondeSplash();//$("#telaSplash").css("display", "none");
+            });
+            //exibeToast("titulo", "mensagem", 2);
+            //exibeGrowl("titulo", "mensagem");
+        });
+    </script>
+
+    @*@MeusHelpers.RelogioDigital()*@
+</body>
+
+</html>

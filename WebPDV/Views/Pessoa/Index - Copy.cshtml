@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    /** {
+        box-sizing: border-box;
+    }*/
+
+    .column {
+        float: left;
+        padding: 15px;
+        display: inline-block;
+    }
+
+    #divLateral {
+        width: 20%;
+    }
+
+    #divCentral {
+        width: 75%;
+    }
+
+    #divLateral ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #divLateral li {
+        padding: 8px;
+        margin-bottom: 8px;
+        width: 95%;
+    }
+</style>
+
+
+<div class="clearfix">
+    <div class="column" id="divLateral">
+        <ul>
+            <li id="btnCadastro">Nova Pessoa</li>
+            <li id="btnLista">Listagem</li>
+        </ul>
+    </div>
+
+    <div class="column" id="divCentral">
+        <h1>Pessoas</h1>
+        <p>Cadastro simples de pessoas.</p>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $("#btnCadastro").button().on("click", function () {
+            utilJSPUI.abreDialogo('dialog', 'Cadastro', '/Pessoa/Cadastro', {});
+        });
+        $("#btnLista").button().on("click", function () {
+            utilJSPUI.carregaDivPagina('divCentral', '/Pessoa/Lista', {});
+        });
+    });
+</script>

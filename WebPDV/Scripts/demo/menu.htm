@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>jQuery UI Selectmenu Example</title>
+        <link rel="Stylesheet" href="jqueryui/themes/base/jquery.ui.all.css" />
+        <style>
+            .ui-menu-container { width:200px; height:26px; padding:4px 0 0 4px; position:relative; cursor:pointer; }
+            .ui-menu { position:absolute; right:0; top:100%; }
+            .ui-menu .ui-menu-item a { padding:2px 20px; }
+            .ui-menu-trigger { padding:0 3px; margin:-1px 3px; float:right; text-decoration:none; }
+        </style>
+    </head>
+    <body>
+        <select id="selectmenu">
+            <option>Option 1</option>
+            <option>Option 2</option>
+            <option>Option 3</option>
+            <option>Option 4</option>
+            <option>Option 5</option>
+        </select>
+        <script src="jqueryui/jquery-1.6.2.js"></script>
+        <script src="jqueryui/ui/jquery.ui.core.js"></script>
+        <script src="jqueryui/ui/jquery.ui.widget.js"></script>
+        <script src="jqueryui/ui/jquery.ui.menu.js"></script>
+        <script>
+            (function ($) {
+                
+                //cached els
+                var base = $("#selectmenu").hide(),
+                    container = $("<div />", {
+                        "class": "ui-menu-container ui-widget ui-widget-content ui-corner-all"
+                    }),
+                    labal = $("<span />", {
+                        id: "label",
+                        text: "Choose..."
+                    }).appendTo(container),
+                    list = $("<ul />", {
+                        id: "menu"
+                    }),
+                    item = $("<li />");
+
+                //build underlying list for menu
+                $.each(base.children(), function () {
+
+                    var tempItem = item.clone();
+
+                    $("<a />", {
+                        href: "#",
+                        text: $(this).text()
+                    }).appendTo(tempItem);
+
+                    tempItem.appendTo(list);
+                });
+
+                list.appendTo(container);
+
+                //build menu opener
+                $("<a />", {
+                    "class": "ui-menu-trigger ui-widget-content ui-corner-all",
+                    href: "#",
+                    html: "&#x25BC;",
+                    click: function () {
+                        $("#menu").slideDown();
+                    }
+                }).appendTo(container);
+
+                container.insertAfter(base);
+
+                //init menu
+                $("#menu").hide().menu({
+                    select: function (e, ui) {
+                        //set selected index on hidden <select>
+                        base.attr("selectedIndex", ui.item.index());
+
+                        //update ui
+                        $("#label").text(ui.item.text());
+                        $("#menu").slideUp();
+                    }
+                });
+
+            } (jQuery));
+        </script>
+    </body>
+</html>

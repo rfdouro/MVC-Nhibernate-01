@@ -1,0 +1,82 @@
+﻿@helper ExibeInfo(string mensagem) {
+    <div class="alert alert-info">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Informação!</strong> @mensagem
+    </div>
+}
+
+@helper OrderedList(IEnumerable<string> items){
+    <ol>
+        @foreach(var item in items){
+            <li>@item</li>
+        }
+    </ol>
+}
+
+@helper ExibeGrowl(String titulo, String mensagem) {
+    <script>
+        exibeGrowl('@titulo', '@mensagem');
+    </script>
+}
+
+@helper RelogioDigital() {
+    <style>
+        .relogioPagina{
+            visibility: hidden;
+        }
+        @@media (min-width: 768px) {
+            .relogioPagina{
+                position:absolute; top:10px; left:10px; padding: 5px; visibility: visible;
+            }    
+        }
+    </style>
+    <div id="txtRelogioPagina" class="bg-primary relogioPagina">::</div>
+    <script>
+        function relogioDigital() {
+            this.iniciaTempo = function () {
+                var hoje = new Date();
+                var h = hoje.getHours();
+                var m = hoje.getMinutes();
+                var s = hoje.getSeconds();
+                m = this.checaTempo(m);
+                s = this.checaTempo(s);
+                document.getElementById('txtRelogioPagina').innerHTML =
+                h + ":" + m + ":" + s;
+                var t = setTimeout('relogio.iniciaTempo()', 500);
+            };
+            this.checaTempo = function (i) {
+                if (i < 10) { i = "0" + i };  // adiciona zero à esquerda de números menores que 10
+                return i;
+            };
+        }
+        var relogio = new relogioDigital();
+        relogio.iniciaTempo();
+    </script>
+}
+
+//depende de ter bootstrap-datepicker.js na página
+@helper inputDate(String idGrupo, String idComponente, String valor) {
+    <div class='input-group date' id='@idGrupo'>
+        <input type='text' id="@idComponente" name="@idComponente" class="form-control" value="@(valor!=null?valor:"")" />
+        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    </div>
+    <script>
+        $('#@idGrupo').datepicker({
+            language: "pt-BR"
+        });
+    </script>
+}
+
+//depende de ter bootstrap-datepicker.js na página
+@helper inputDate(String idGrupo, String idComponente, String valor, bool requerido)
+{
+    <div class='input-group date' id='@idGrupo'>
+        <input type='text' id="@idComponente" name="@idComponente" class="form-control" value="@(valor!=null?valor:"")" required="required" />
+        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    </div>
+    <script>
+        $('#@idGrupo').datepicker({
+            language: "pt-BR"
+        });
+    </script>
+}

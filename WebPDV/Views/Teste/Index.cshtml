@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPUI.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<form action="#">
+
+    <fieldset>
+        <label for="speed">Select a speed</label>
+        <select name="speed" id="speed">
+            <option>Slower</option>
+            <option>Slow</option>
+            <option selected="selected">Medium</option>
+            <option>Fast</option>
+            <option>Faster</option>
+        </select>
+    </fieldset>
+</form>
+
+<script>
+    $(function () {
+
+        $.ajax({
+            url: "/Pessoa/GetJson",
+            dataType: "json",
+            success: function (data) {
+                $.each(data["data"], function (index, itemData) {
+                    //alert(itemData[0]);
+                    $("<option value='" + itemData[0] + "'>" + itemData[1] + "</option>").appendTo("#speed");
+                });
+
+            }
+        });
+
+        $("#speed").selectmenu();
+        $('#speed').on('change', function () {
+            alert('sasa');
+            //var selectVal = $("#selectId option:selected").val();
+        });
+    });
+</script>
